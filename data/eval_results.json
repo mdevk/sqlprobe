@@ -1,0 +1,482 @@
+[
+  {
+    "query_id": 0,
+    "nl": "What is the average account balance of customers in the AUTOMOBILE segment?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT AVG(c_acctbal) AS avg_balance FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "generated_sql": "SELECT AVG(c_acctbal) FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 0,
+    "nl": "What is the average account balance of customers in the AUTOMOBILE segment?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT AVG(c_acctbal) AS avg_balance FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "generated_sql": "SELECT AVG(c_acctbal) FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 0,
+    "nl": "What is the average account balance of customers in the AUTOMOBILE segment?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT AVG(c_acctbal) AS avg_balance FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "generated_sql": "SELECT avg(c_acctbal) FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 1,
+    "nl": "How many orders were placed in 1995?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT COUNT(*) AS order_count FROM orders WHERE o_orderdate >= '1995-01-01' AND o_orderdate <= '1995-12-31'",
+    "generated_sql": "SELECT COUNT(*) FROM orders WHERE o_orderdate BETWEEN '1995-01-01' AND '1995-12-31'",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 1,
+    "nl": "How many orders were placed in 1995?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT COUNT(*) AS order_count FROM orders WHERE o_orderdate >= '1995-01-01' AND o_orderdate <= '1995-12-31'",
+    "generated_sql": "SELECT COUNT(*) FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1995",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 1,
+    "nl": "How many orders were placed in 1995?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT COUNT(*) AS order_count FROM orders WHERE o_orderdate >= '1995-01-01' AND o_orderdate <= '1995-12-31'",
+    "generated_sql": "SELECT\n  count(o_orderkey)\nFROM orders\nWHERE\n  CAST(strftime('%Y', o_orderdate) AS INTEGER) = 1995",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 2,
+    "nl": "What is the total extended price of all line items shipped on or after January 1, 1997?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT SUM(l_extendedprice) AS total_extended_price FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "generated_sql": "SELECT SUM(l_extendedprice) FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 2,
+    "nl": "What is the total extended price of all line items shipped on or after January 1, 1997?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT SUM(l_extendedprice) AS total_extended_price FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "generated_sql": "SELECT SUM(l_extendedprice) FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 2,
+    "nl": "What is the total extended price of all line items shipped on or after January 1, 1997?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT SUM(l_extendedprice) AS total_extended_price FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "generated_sql": "SELECT SUM(l_extendedprice)\nFROM lineitem\nWHERE l_shipdate >= '1997-01-01'",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 3,
+    "nl": "Show me the top 10 most expensive orders by total price.",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT o_orderkey, o_totalprice FROM orders ORDER BY o_totalprice DESC LIMIT 10",
+    "generated_sql": "SELECT o_orderkey, o_totalprice\nFROM orders\nORDER BY o_totalprice DESC\nLIMIT 10",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 3,
+    "nl": "Show me the top 10 most expensive orders by total price.",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT o_orderkey, o_totalprice FROM orders ORDER BY o_totalprice DESC LIMIT 10",
+    "generated_sql": "SELECT o_orderkey, o_totalprice\nFROM orders\nORDER BY o_totalprice DESC\nLIMIT 10",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 3,
+    "nl": "Show me the top 10 most expensive orders by total price.",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT o_orderkey, o_totalprice FROM orders ORDER BY o_totalprice DESC LIMIT 10",
+    "generated_sql": "SELECT o_orderkey, o_totalprice\nFROM orders\nORDER BY o_totalprice DESC\nLIMIT 10",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 4,
+    "nl": "What is the minimum retail price for parts in each size category?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT p_size, MIN(p_retailprice) AS min_price FROM part GROUP BY p_size ORDER BY p_size",
+    "generated_sql": "SELECT p_size, MIN(p_retailprice) AS min_retailprice FROM part GROUP BY p_size",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 4,
+    "nl": "What is the minimum retail price for parts in each size category?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT p_size, MIN(p_retailprice) AS min_price FROM part GROUP BY p_size ORDER BY p_size",
+    "generated_sql": "SELECT p_size, MIN(p_retailprice) as min_retail_price\nFROM part\nGROUP BY p_size\nORDER BY p_size",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 4,
+    "nl": "What is the minimum retail price for parts in each size category?",
+    "difficulty": "easy",
+    "ground_truth_sql": "SELECT p_size, MIN(p_retailprice) AS min_price FROM part GROUP BY p_size ORDER BY p_size",
+    "generated_sql": "SELECT p_size, MIN(p_retailprice)\nFROM part\nGROUP BY p_size",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 5,
+    "nl": "Which suppliers from GERMANY have provided parts with a supply cost greater than 100?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT DISTINCT s.s_name, s.s_address FROM supplier s INNER JOIN nation n ON s.s_nationkey = n.n_nationkey INNER JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey WHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "generated_sql": "SELECT s.s_suppkey, s.s_name, s.s_address, s.s_phone, s.s_acctbal, s.s_comment\nFROM supplier s\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\nWHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 5,
+    "nl": "Which suppliers from GERMANY have provided parts with a supply cost greater than 100?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT DISTINCT s.s_name, s.s_address FROM supplier s INNER JOIN nation n ON s.s_nationkey = n.n_nationkey INNER JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey WHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "generated_sql": "SELECT DISTINCT s.s_suppkey, s.s_name\nFROM supplier s\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\nWHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 5,
+    "nl": "Which suppliers from GERMANY have provided parts with a supply cost greater than 100?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT DISTINCT s.s_name, s.s_address FROM supplier s INNER JOIN nation n ON s.s_nationkey = n.n_nationkey INNER JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey WHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "generated_sql": "SELECT\n  s.s_name\nFROM supplier AS s\nJOIN nation AS n\n  ON s.s_nationkey = n.n_nationkey\nJOIN partsupp AS ps\n  ON s.s_suppkey = ps.ps_suppkey\nWHERE\n  n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 6,
+    "nl": "How many orders were placed by customers from each region in 1996?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT r.r_name, COUNT(o.o_orderkey) AS order_count FROM orders o INNER JOIN customer c ON o.o_custkey = c.c_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey INNER JOIN region r ON n.n_regionkey = r.r_regionkey WHERE o.o_orderdate >= '1996-01-01' AND o.o_orderdate < '1997-01-01' GROUP BY r.r_name",
+    "generated_sql": "SELECT r.r_name, COUNT(o.o_orderkey) AS order_count\nFROM orders o\nJOIN customer c ON o.o_custkey = c.c_custkey\nJOIN nation n ON c.c_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nWHERE o.o_orderdate BETWEEN '1996-01-01' AND '1996-12-31'\nGROUP BY r.r_name",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 6,
+    "nl": "How many orders were placed by customers from each region in 1996?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT r.r_name, COUNT(o.o_orderkey) AS order_count FROM orders o INNER JOIN customer c ON o.o_custkey = c.c_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey INNER JOIN region r ON n.n_regionkey = r.r_regionkey WHERE o.o_orderdate >= '1996-01-01' AND o.o_orderdate < '1997-01-01' GROUP BY r.r_name",
+    "generated_sql": "SELECT r.r_name, COUNT(o.o_orderkey) as order_count\nFROM region r\nJOIN nation n ON r.r_regionkey = n.n_regionkey\nJOIN customer c ON n.n_nationkey = c.c_nationkey\nJOIN orders o ON c.c_custkey = o.o_custkey\nWHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996\nGROUP BY r.r_name\nORDER BY r.r_name",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 6,
+    "nl": "How many orders were placed by customers from each region in 1996?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT r.r_name, COUNT(o.o_orderkey) AS order_count FROM orders o INNER JOIN customer c ON o.o_custkey = c.c_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey INNER JOIN region r ON n.n_regionkey = r.r_regionkey WHERE o.o_orderdate >= '1996-01-01' AND o.o_orderdate < '1997-01-01' GROUP BY r.r_name",
+    "generated_sql": "SELECT\n  r.r_name,\n  COUNT(o.o_orderkey)\nFROM orders AS o\nJOIN customer AS c\n  ON o.o_custkey = c.c_custkey\nJOIN nation AS n\n  ON c.c_nationkey = n.n_nationkey\nJOIN region AS r\n  ON n.n_regionkey = r.r_regionkey\nWHERE\n  o.o_orderdate BETWEEN '1996-01-01' AND '1996-12-31'\nGROUP BY\n  r.r_name",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 7,
+    "nl": "What is the total revenue from line items for each part manufacturer, but only show manufacturers with more than 1000000 in total revenue?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT p.p_mfgr, SUM(l.l_extendedprice * (1 - l.l_discount)) AS total_revenue FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey GROUP BY p.p_mfgr HAVING SUM(l.l_extendedprice * (1 - l.l_discount)) > 1000000",
+    "generated_sql": "SELECT p_mfgr, SUM(l_extendedprice * (1 - l_discount)) AS total_revenue\nFROM lineitem\nJOIN part ON lineitem.l_partkey = part.p_partkey\nGROUP BY p_mfgr\nHAVING SUM(l_extendedprice * (1 - l_discount)) > 1000000",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 7,
+    "nl": "What is the total revenue from line items for each part manufacturer, but only show manufacturers with more than 1000000 in total revenue?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT p.p_mfgr, SUM(l.l_extendedprice * (1 - l.l_discount)) AS total_revenue FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey GROUP BY p.p_mfgr HAVING SUM(l.l_extendedprice * (1 - l.l_discount)) > 1000000",
+    "generated_sql": "SELECT p.p_mfgr, SUM(l.l_extendedprice * (1 - l.l_discount)) as total_revenue\nFROM lineitem l\nJOIN part p ON l.l_partkey = p.p_partkey\nGROUP BY p.p_mfgr\nHAVING SUM(l.l_extendedprice * (1 - l.l_discount)) > 1000000",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 7,
+    "nl": "What is the total revenue from line items for each part manufacturer, but only show manufacturers with more than 1000000 in total revenue?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT p.p_mfgr, SUM(l.l_extendedprice * (1 - l.l_discount)) AS total_revenue FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey GROUP BY p.p_mfgr HAVING SUM(l.l_extendedprice * (1 - l.l_discount)) > 1000000",
+    "generated_sql": "SELECT\n  p.mfgr,\n  SUM(l.extendedprice * (\n    1 - l.discount\n  )) AS revenue\nFROM lineitem AS l\nJOIN part AS p\n  ON l.l_partkey = p.p_partkey\nGROUP BY\n  p.mfgr\nHAVING\n  SUM(l.extendedprice * (\n    1 - l.discount\n  )) > 1000000",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 8,
+    "nl": "Show me customers from FRANCE along with their order count, including customers who have never placed an order?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT c.c_name, c.c_address, COUNT(o.o_orderkey) AS order_count FROM customer c LEFT JOIN orders o ON c.c_custkey = o.o_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE n.n_name = 'FRANCE' GROUP BY c.c_custkey, c.c_name, c.c_address",
+    "generated_sql": "SELECT c.c_custkey, c.c_name, COUNT(o.o_orderkey) AS order_count\nFROM customer c\nLEFT JOIN nation n ON c.c_nationkey = n.n_nationkey\nLEFT JOIN orders o ON c.c_custkey = o.o_custkey\nWHERE n.n_name = 'FRANCE'\nGROUP BY c.c_custkey, c.c_name",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 8,
+    "nl": "Show me customers from FRANCE along with their order count, including customers who have never placed an order?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT c.c_name, c.c_address, COUNT(o.o_orderkey) AS order_count FROM customer c LEFT JOIN orders o ON c.c_custkey = o.o_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE n.n_name = 'FRANCE' GROUP BY c.c_custkey, c.c_name, c.c_address",
+    "generated_sql": "SELECT \n    c.c_custkey,\n    c.c_name,\n    c.c_address,\n    c.c_phone,\n    c.c_acctbal,\n    c.c_mktsegment,\n    COALESCE(COUNT(o.o_orderkey), 0) as order_count\nFROM customer c\nJOIN nation n ON c.c_nationkey = n.n_nationkey\nLEFT JOIN orders o ON c.c_custkey = o.o_custkey\nWHERE n.n_name = 'FRANCE'\nGROUP BY c.c_custkey, c.c_name, c.c_address, c.c_phone, c.c_acctbal, c.c_mktsegment",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 8,
+    "nl": "Show me customers from FRANCE along with their order count, including customers who have never placed an order?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT c.c_name, c.c_address, COUNT(o.o_orderkey) AS order_count FROM customer c LEFT JOIN orders o ON c.c_custkey = o.o_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE n.n_name = 'FRANCE' GROUP BY c.c_custkey, c.c_name, c.c_address",
+    "generated_sql": "SELECT\n  c.c_name,\n  COUNT(o.o_orderkey)\nFROM customer AS c\nLEFT JOIN orders AS o\n  ON c.c_custkey = o.o_custkey\nLEFT JOIN nation AS n\n  ON c.c_nationkey = n.n_nationkey\nWHERE\n  n.n_name = 'FRANCE'\nGROUP BY\n  c.c_custkey,\n  c.c_name",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 9,
+    "nl": "What is the average quantity ordered for parts with retail price above 1000, categorized by whether the part size is large or small?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END AS size_category, AVG(l.l_quantity) AS avg_quantity FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey WHERE p.p_retailprice > 1000 GROUP BY CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END",
+    "generated_sql": "SELECT \n    CASE \n        WHEN p_size > 10 THEN 'Large' \n        ELSE 'Small' \n    END AS size_category,\n    AVG(l_quantity) AS average_quantity\nFROM \n    part\nJOIN \n    lineitem ON part.p_partkey = lineitem.l_partkey\nWHERE \n    p_retailprice > 1000\nGROUP BY \n    size_category",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 9,
+    "nl": "What is the average quantity ordered for parts with retail price above 1000, categorized by whether the part size is large or small?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END AS size_category, AVG(l.l_quantity) AS avg_quantity FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey WHERE p.p_retailprice > 1000 GROUP BY CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END",
+    "generated_sql": "SELECT \n    CASE \n        WHEN p.p_size >= 30 THEN 'Large'\n        ELSE 'Small'\n    END AS size_category,\n    AVG(l.l_quantity) AS avg_quantity\nFROM lineitem l\nJOIN part p ON l.l_partkey = p.p_partkey\nWHERE p.p_retailprice > 1000\nGROUP BY CASE \n    WHEN p.p_size >= 30 THEN 'Large'\n    ELSE 'Small'\nEND",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 9,
+    "nl": "What is the average quantity ordered for parts with retail price above 1000, categorized by whether the part size is large or small?",
+    "difficulty": "medium",
+    "ground_truth_sql": "SELECT CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END AS size_category, AVG(l.l_quantity) AS avg_quantity FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey WHERE p.p_retailprice > 1000 GROUP BY CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END",
+    "generated_sql": "SELECT\n  CASE\n    WHEN p.p_size > (\n      SELECT\n        AVG(p_size)\n      FROM part\n    )\n    THEN 'Large'\n    ELSE 'Small'\n  END AS part_size_category,\n  AVG(l.l_quantity)\nFROM lineitem AS l\nJOIN part AS p\n  ON l.l_partkey = p.p_partkey\nWHERE\n  p.p_retailprice > 1000\nGROUP BY\n  part_size_category",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 10,
+    "nl": "Show me customers from EUROPE who have placed orders with a total value higher than the average order value for their country.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey JOIN region r ON n.n_regionkey = r.r_regionkey JOIN orders o ON c.c_custkey = o.o_custkey WHERE r.r_name = 'EUROPE' AND o.o_totalprice > (SELECT AVG(o2.o_totalprice) FROM orders o2 JOIN customer c2 ON o2.o_custkey = c2.c_custkey WHERE c2.c_nationkey = c.c_nationkey)",
+    "generated_sql": "SELECT c.c_custkey, c.c_name, c.c_nationkey, o.o_orderkey, o.o_totalprice\nFROM customer c\nJOIN nation n ON c.c_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nJOIN orders o ON c.c_custkey = o.o_custkey\nWHERE r.r_name = 'EUROPE'\nAND o.o_totalprice > (\n    SELECT AVG(o2.o_totalprice)\n    FROM orders o2\n    JOIN customer c2 ON o2.o_custkey = c2.c_custkey\n    WHERE c2.c_nationkey = c.c_nationkey\n)",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 10,
+    "nl": "Show me customers from EUROPE who have placed orders with a total value higher than the average order value for their country.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey JOIN region r ON n.n_regionkey = r.r_regionkey JOIN orders o ON c.c_custkey = o.o_custkey WHERE r.r_name = 'EUROPE' AND o.o_totalprice > (SELECT AVG(o2.o_totalprice) FROM orders o2 JOIN customer c2 ON o2.o_custkey = c2.c_custkey WHERE c2.c_nationkey = c.c_nationkey)",
+    "generated_sql": "SELECT DISTINCT c.c_custkey, c.c_name, c.c_address, n.n_name\nFROM customer c\nJOIN nation n ON c.c_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nJOIN orders o ON c.c_custkey = o.o_custkey\nWHERE r.r_name = 'EUROPE'\nAND o.o_totalprice > (\n    SELECT AVG(o2.o_totalprice)\n    FROM orders o2\n    JOIN customer c2 ON o2.o_custkey = c2.c_custkey\n    WHERE c2.c_nationkey = c.c_nationkey\n)",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 10,
+    "nl": "Show me customers from EUROPE who have placed orders with a total value higher than the average order value for their country.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey JOIN region r ON n.n_regionkey = r.r_regionkey JOIN orders o ON c.c_custkey = o.o_custkey WHERE r.r_name = 'EUROPE' AND o.o_totalprice > (SELECT AVG(o2.o_totalprice) FROM orders o2 JOIN customer c2 ON o2.o_custkey = c2.c_custkey WHERE c2.c_nationkey = c.c_nationkey)",
+    "generated_sql": "SELECT\n  c.c_name,\n  c.c_custkey\nFROM customer AS c\nJOIN nation AS n\n  ON c.c_nationkey = n.n_nationkey\nJOIN orders AS o\n  ON c.c_custkey = o.o_custkey\nJOIN region AS r\n  ON n.n_regionkey = r.r_regionkey\nWHERE\n  r.r_name = 'EUROPE'\nGROUP BY\n  c.c_custkey,\n  c.c_name\nHAVING\n  SUM(o.o_totalprice) > (\n    SELECT\n      AVG(o.o_totalprice)\n    FROM orders AS o\n    JOIN customer AS c2\n      ON o.o_custkey = c2.c_custkey\n    JOIN nation AS n2\n      ON c2.c_nationkey = n2.n_nationkey\n    WHERE\n      n2.n_nationkey = n.n_nationkey\n  )",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 11,
+    "nl": "For each supplier, show their ranking by total supply cost and the difference from the previous supplier's total supply cost.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT s.s_suppkey, s.s_name, total_supply_cost, RANK() OVER (ORDER BY total_supply_cost DESC) as cost_rank, total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) as cost_diff_from_prev FROM (SELECT s.s_suppkey, s.s_name, SUM(ps.ps_supplycost * ps.ps_availqty) as total_supply_cost FROM supplier s JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey GROUP BY s.s_suppkey, s.s_name) s",
+    "generated_sql": "SELECT s.s_suppkey, \n       s.s_name, \n       total_supply_cost, \n       total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) AS difference_from_previous\nFROM (\n    SELECT ps_suppkey, \n           SUM(ps_supplycost * ps_availqty) AS total_supply_cost\n    FROM partsupp\n    GROUP BY ps_suppkey\n) AS supply_costs\nJOIN supplier s ON s.s_suppkey = supply_costs.ps_suppkey\nORDER BY total_supply_cost DESC",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 11,
+    "nl": "For each supplier, show their ranking by total supply cost and the difference from the previous supplier's total supply cost.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT s.s_suppkey, s.s_name, total_supply_cost, RANK() OVER (ORDER BY total_supply_cost DESC) as cost_rank, total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) as cost_diff_from_prev FROM (SELECT s.s_suppkey, s.s_name, SUM(ps.ps_supplycost * ps.ps_availqty) as total_supply_cost FROM supplier s JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey GROUP BY s.s_suppkey, s.s_name) s",
+    "generated_sql": "SELECT \n    s.s_suppkey,\n    s.s_name,\n    total_supply_cost,\n    RANK() OVER (ORDER BY total_supply_cost DESC) as ranking,\n    total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) as diff_from_previous\nFROM supplier s\nJOIN (\n    SELECT \n        ps_suppkey,\n        SUM(ps_supplycost * ps_availqty) as total_supply_cost\n    FROM partsupp\n    GROUP BY ps_suppkey\n) ps_agg ON s.s_suppkey = ps_agg.ps_suppkey\nORDER BY total_supply_cost DESC",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 11,
+    "nl": "For each supplier, show their ranking by total supply cost and the difference from the previous supplier's total supply cost.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT s.s_suppkey, s.s_name, total_supply_cost, RANK() OVER (ORDER BY total_supply_cost DESC) as cost_rank, total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) as cost_diff_from_prev FROM (SELECT s.s_suppkey, s.s_name, SUM(ps.ps_supplycost * ps.ps_availqty) as total_supply_cost FROM supplier s JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey GROUP BY s.s_suppkey, s.s_name) s",
+    "generated_sql": "WITH SupplierCost AS (\n  SELECT\n    s_suppkey,\n    SUM(ps_supplycost * ps_availqty) AS total_supply_cost\n  FROM supplier\n  JOIN partsupp\n    ON s_suppkey = ps_suppkey\n  GROUP BY\n    s_suppkey\n), RankedSupplierCost AS (\n  SELECT\n    s_suppkey,\n    total_supply_cost,\n    RANK() OVER (ORDER BY total_supply_cost DESC) AS supply_cost_rank\n  FROM SupplierCost\n  JOIN supplier\n    ON SupplierCost.s_suppkey = supplier.s_suppkey\n)\nSELECT\n  s_suppkey,\n  total_supply_cost,\n  supply_cost_rank,\n  total_supply_cost - LAG(total_supply_cost, 1, 0) OVER (ORDER BY supply_cost_rank) AS cost_difference\nFROM RankedSupplierCost\nORDER BY\n  supply_cost_rank",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 12,
+    "nl": "Which parts have been ordered in quantities above the average quantity for that part across all orders placed in 1995?",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT p.p_partkey, p.p_name FROM part p WHERE EXISTS (SELECT 1 FROM lineitem l JOIN orders o ON l.l_orderkey = o.o_orderkey WHERE l.l_partkey = p.p_partkey AND EXTRACT(YEAR FROM o.o_orderdate) = 1995 AND l.l_quantity > (SELECT AVG(l2.l_quantity) FROM lineitem l2 WHERE l2.l_partkey = p.p_partkey))",
+    "generated_sql": "SELECT p.p_partkey, p.p_name\nFROM part p\nJOIN lineitem l ON p.p_partkey = l.l_partkey\nJOIN orders o ON l.l_orderkey = o.o_orderkey\nWHERE o.o_orderdate BETWEEN '1995-01-01' AND '1995-12-31'\nGROUP BY p.p_partkey, p.p_name\nHAVING SUM(l.l_quantity) > (\n    SELECT AVG(l2.l_quantity)\n    FROM lineitem l2\n    JOIN orders o2 ON l2.l_orderkey = o2.o_orderkey\n    WHERE l2.l_partkey = p.p_partkey AND o2.o_orderdate BETWEEN '1995-01-01' AND '1995-12-31'\n)",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 12,
+    "nl": "Which parts have been ordered in quantities above the average quantity for that part across all orders placed in 1995?",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT p.p_partkey, p.p_name FROM part p WHERE EXISTS (SELECT 1 FROM lineitem l JOIN orders o ON l.l_orderkey = o.o_orderkey WHERE l.l_partkey = p.p_partkey AND EXTRACT(YEAR FROM o.o_orderdate) = 1995 AND l.l_quantity > (SELECT AVG(l2.l_quantity) FROM lineitem l2 WHERE l2.l_partkey = p.p_partkey))",
+    "generated_sql": "SELECT DISTINCT l1.l_partkey\nFROM lineitem l1\nJOIN orders o ON l1.l_orderkey = o.o_orderkey\nWHERE EXTRACT(YEAR FROM o.o_orderdate) = 1995\nAND l1.l_quantity > (\n    SELECT AVG(l2.l_quantity)\n    FROM lineitem l2\n    JOIN orders o2 ON l2.l_orderkey = o2.o_orderkey\n    WHERE EXTRACT(YEAR FROM o2.o_orderdate) = 1995\n    AND l2.l_partkey = l1.l_partkey\n)",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 12,
+    "nl": "Which parts have been ordered in quantities above the average quantity for that part across all orders placed in 1995?",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT DISTINCT p.p_partkey, p.p_name FROM part p WHERE EXISTS (SELECT 1 FROM lineitem l JOIN orders o ON l.l_orderkey = o.o_orderkey WHERE l.l_partkey = p.p_partkey AND EXTRACT(YEAR FROM o.o_orderdate) = 1995 AND l.l_quantity > (SELECT AVG(l2.l_quantity) FROM lineitem l2 WHERE l2.l_partkey = p.p_partkey))",
+    "generated_sql": "SELECT DISTINCT\n  p.p_name\nFROM part AS p\nJOIN lineitem AS l\n  ON p.p_partkey = l.l_partkey\nJOIN orders AS o\n  ON l.l_orderkey = o.o_orderkey\nWHERE\n  STRFTIME('%Y', o.o_orderdate) = '1995'\n  AND l.l_quantity > (\n    SELECT\n      AVG(l2.l_quantity)\n    FROM lineitem AS l2\n    JOIN orders AS o2\n      ON l2.l_orderkey = o2.o_orderkey\n    WHERE\n      l2.l_partkey = l.l_partkey\n      AND STRFTIME('%Y', o2.o_orderdate) = '1995'\n  )",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 13,
+    "nl": "Show me the monthly order totals for 1996, along with each month's rank by total value and the running total across all months.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT order_month, monthly_total, DENSE_RANK() OVER (ORDER BY monthly_total DESC) as month_rank, SUM(monthly_total) OVER (ORDER BY order_month ROWS UNBOUNDED PRECEDING) as running_total FROM (SELECT EXTRACT(MONTH FROM o_orderdate) as order_month, SUM(o_totalprice) as monthly_total FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 GROUP BY EXTRACT(MONTH FROM o_orderdate)) monthly_orders ORDER BY order_month",
+    "generated_sql": "SELECT \n    DATE_TRUNC('month', o_orderdate) AS month,\n    SUM(o_totalprice) AS monthly_total,\n    RANK() OVER (ORDER BY SUM(o_totalprice) DESC) AS monthly_rank,\n    SUM(SUM(o_totalprice)) OVER (ORDER BY DATE_TRUNC('month', o_orderdate)) AS running_total\nFROM \n    orders\nWHERE \n    EXTRACT(YEAR FROM o_orderdate) = 1996\nGROUP BY \n    DATE_TRUNC('month', o_orderdate)\nORDER BY \n    month",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 13,
+    "nl": "Show me the monthly order totals for 1996, along with each month's rank by total value and the running total across all months.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT order_month, monthly_total, DENSE_RANK() OVER (ORDER BY monthly_total DESC) as month_rank, SUM(monthly_total) OVER (ORDER BY order_month ROWS UNBOUNDED PRECEDING) as running_total FROM (SELECT EXTRACT(MONTH FROM o_orderdate) as order_month, SUM(o_totalprice) as monthly_total FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 GROUP BY EXTRACT(MONTH FROM o_orderdate)) monthly_orders ORDER BY order_month",
+    "generated_sql": "SELECT \n    EXTRACT(MONTH FROM o_orderdate) as month,\n    SUM(o_totalprice) as monthly_total,\n    RANK() OVER (ORDER BY SUM(o_totalprice) DESC) as rank_by_total,\n    SUM(SUM(o_totalprice)) OVER (ORDER BY EXTRACT(MONTH FROM o_orderdate)) as running_total\nFROM orders \nWHERE EXTRACT(YEAR FROM o_orderdate) = 1996\nGROUP BY EXTRACT(MONTH FROM o_orderdate)\nORDER BY month",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 13,
+    "nl": "Show me the monthly order totals for 1996, along with each month's rank by total value and the running total across all months.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT order_month, monthly_total, DENSE_RANK() OVER (ORDER BY monthly_total DESC) as month_rank, SUM(monthly_total) OVER (ORDER BY order_month ROWS UNBOUNDED PRECEDING) as running_total FROM (SELECT EXTRACT(MONTH FROM o_orderdate) as order_month, SUM(o_totalprice) as monthly_total FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 GROUP BY EXTRACT(MONTH FROM o_orderdate)) monthly_orders ORDER BY order_month",
+    "generated_sql": "WITH monthly_orders AS (\n  SELECT\n    strftime('%Y-%m', o_orderdate) AS order_month,\n    SUM(o_totalprice) AS monthly_total\n  FROM orders\n  WHERE\n    strftime('%Y', o_orderdate) = '1996'\n  GROUP BY\n    order_month\n), ranked_orders AS (\n  SELECT\n    order_month,\n    monthly_total,\n    RANK() OVER (ORDER BY monthly_total DESC) AS rank_by_total\n  FROM monthly_orders\n)\nSELECT\n  ro.order_month,\n  ro.monthly_total,\n  ro.rank_by_total,\n  SUM(ro.monthly_total) OVER (ORDER BY ro.order_month) AS running_total\nFROM ranked_orders AS ro\nORDER BY\n  ro.order_month",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 14,
+    "nl": "Find customers from the BUILDING segment whose account balance is higher than all customers from FRANCE in the same segment.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE c.c_mktsegment = 'BUILDING' AND c.c_acctbal > ALL (SELECT c2.c_acctbal FROM customer c2 JOIN nation n2 ON c2.c_nationkey = n2.n_nationkey WHERE c2.c_mktsegment = 'BUILDING' AND n2.n_name = 'FRANCE')",
+    "generated_sql": "SELECT c_name FROM customer WHERE c_mktsegment = 'BUILDING' AND c_acctbal > ALL (SELECT c_acctbal FROM customer JOIN nation ON customer.c_nationkey = nation.n_nationkey WHERE nation.n_name = 'FRANCE' AND customer.c_mktsegment = 'BUILDING')",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 14,
+    "nl": "Find customers from the BUILDING segment whose account balance is higher than all customers from FRANCE in the same segment.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE c.c_mktsegment = 'BUILDING' AND c.c_acctbal > ALL (SELECT c2.c_acctbal FROM customer c2 JOIN nation n2 ON c2.c_nationkey = n2.n_nationkey WHERE c2.c_mktsegment = 'BUILDING' AND n2.n_name = 'FRANCE')",
+    "generated_sql": "SELECT c_custkey, c_name, c_address, c_phone, c_acctbal, c_mktsegment, c_comment\nFROM customer c\nJOIN nation n ON c.c_nationkey = n.n_nationkey\nWHERE c.c_mktsegment = 'BUILDING'\nAND c.c_acctbal > ALL (\n    SELECT c2.c_acctbal\n    FROM customer c2\n    JOIN nation n2 ON c2.c_nationkey = n2.n_nationkey\n    WHERE c2.c_mktsegment = 'BUILDING'\n    AND n2.n_name = 'FRANCE'\n)",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 14,
+    "nl": "Find customers from the BUILDING segment whose account balance is higher than all customers from FRANCE in the same segment.",
+    "difficulty": "hard",
+    "ground_truth_sql": "SELECT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE c.c_mktsegment = 'BUILDING' AND c.c_acctbal > ALL (SELECT c2.c_acctbal FROM customer c2 JOIN nation n2 ON c2.c_nationkey = n2.n_nationkey WHERE c2.c_mktsegment = 'BUILDING' AND n2.n_name = 'FRANCE')",
+    "generated_sql": "SELECT c_custkey, c_name, c_acctbal\nFROM customer\nWHERE c_mktsegment = 'BUILDING'\nAND c_acctbal > (SELECT MAX(c_acctbal) FROM customer JOIN nation ON c_nationkey = n_nationkey WHERE n_name = 'FRANCE' AND c_mktsegment = 'BUILDING')",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 15,
+    "nl": "For each quarter of 1995, show me the total revenue from line items shipped in that quarter, along with the percentage change from the previous quarter and the cumulative revenue across all quarters up to that point.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH quarterly_revenue AS (\n  SELECT \n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS revenue\n  FROM lineitem \n  WHERE EXTRACT(YEAR FROM l_shipdate) = 1995\n  GROUP BY EXTRACT(QUARTER FROM l_shipdate)\n),\nrevenue_with_lag AS (\n  SELECT \n    quarter,\n    revenue,\n    LAG(revenue) OVER (ORDER BY quarter) AS prev_revenue,\n    SUM(revenue) OVER (ORDER BY quarter ROWS UNBOUNDED PRECEDING) AS cumulative_revenue\n  FROM quarterly_revenue\n)\nSELECT \n  quarter,\n  revenue,\n  CASE \n    WHEN prev_revenue IS NULL THEN NULL\n    ELSE ((revenue - prev_revenue) / prev_revenue * 100)\n  END AS pct_change_from_prev_quarter,\n  cumulative_revenue\nFROM revenue_with_lag\nORDER BY quarter",
+    "generated_sql": "SELECT \n    EXTRACT(YEAR FROM l_shipdate) AS year,\n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS total_revenue,\n    SUM(SUM(l_extendedprice * (1 - l_discount))) OVER (ORDER BY EXTRACT(YEAR FROM l_shipdate), EXTRACT(QUARTER FROM l_shipdate)) AS cumulative_revenue,\n    (SUM(l_extendedprice * (1 - l_discount)) - LAG(SUM(l_extendedprice * (1 - l_discount))) OVER (ORDER BY EXTRACT(YEAR FROM l_shipdate), EXTRACT(QUARTER FROM l_shipdate))) / NULLIF(LAG(SUM(l_extendedprice * (1 - l_discount))) OVER (ORDER BY EXTRACT(YEAR FROM l_shipdate), EXTRACT(QUARTER FROM l_shipdate)), 0) * 100 AS percentage_change\nFROM \n    lineitem\nWHERE \n    EXTRACT(YEAR FROM l_shipdate) = 1995\nGROUP BY \n    EXTRACT(YEAR FROM l_shipdate), EXTRACT(QUARTER FROM l_shipdate)\nORDER BY \n    year, quarter",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 15,
+    "nl": "For each quarter of 1995, show me the total revenue from line items shipped in that quarter, along with the percentage change from the previous quarter and the cumulative revenue across all quarters up to that point.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH quarterly_revenue AS (\n  SELECT \n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS revenue\n  FROM lineitem \n  WHERE EXTRACT(YEAR FROM l_shipdate) = 1995\n  GROUP BY EXTRACT(QUARTER FROM l_shipdate)\n),\nrevenue_with_lag AS (\n  SELECT \n    quarter,\n    revenue,\n    LAG(revenue) OVER (ORDER BY quarter) AS prev_revenue,\n    SUM(revenue) OVER (ORDER BY quarter ROWS UNBOUNDED PRECEDING) AS cumulative_revenue\n  FROM quarterly_revenue\n)\nSELECT \n  quarter,\n  revenue,\n  CASE \n    WHEN prev_revenue IS NULL THEN NULL\n    ELSE ((revenue - prev_revenue) / prev_revenue * 100)\n  END AS pct_change_from_prev_quarter,\n  cumulative_revenue\nFROM revenue_with_lag\nORDER BY quarter",
+    "generated_sql": "WITH quarterly_revenue AS (\n  SELECT \n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS revenue\n  FROM lineitem\n  WHERE EXTRACT(YEAR FROM l_shipdate) = 1995\n  GROUP BY EXTRACT(QUARTER FROM l_shipdate)\n),\nrevenue_with_metrics AS (\n  SELECT \n    quarter,\n    revenue,\n    LAG(revenue) OVER (ORDER BY quarter) AS prev_quarter_revenue,\n    SUM(revenue) OVER (ORDER BY quarter ROWS UNBOUNDED PRECEDING) AS cumulative_revenue\n  FROM quarterly_revenue\n)\nSELECT \n  quarter,\n  revenue AS total_revenue,\n  CASE \n    WHEN prev_quarter_revenue IS NULL THEN NULL\n    ELSE ROUND(((revenue - prev_quarter_revenue) / prev_quarter_revenue * 100), 2)\n  END AS percentage_change_from_previous_quarter,\n  cumulative_revenue\nFROM revenue_with_metrics\nORDER BY quarter",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 15,
+    "nl": "For each quarter of 1995, show me the total revenue from line items shipped in that quarter, along with the percentage change from the previous quarter and the cumulative revenue across all quarters up to that point.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH quarterly_revenue AS (\n  SELECT \n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS revenue\n  FROM lineitem \n  WHERE EXTRACT(YEAR FROM l_shipdate) = 1995\n  GROUP BY EXTRACT(QUARTER FROM l_shipdate)\n),\nrevenue_with_lag AS (\n  SELECT \n    quarter,\n    revenue,\n    LAG(revenue) OVER (ORDER BY quarter) AS prev_revenue,\n    SUM(revenue) OVER (ORDER BY quarter ROWS UNBOUNDED PRECEDING) AS cumulative_revenue\n  FROM quarterly_revenue\n)\nSELECT \n  quarter,\n  revenue,\n  CASE \n    WHEN prev_revenue IS NULL THEN NULL\n    ELSE ((revenue - prev_revenue) / prev_revenue * 100)\n  END AS pct_change_from_prev_quarter,\n  cumulative_revenue\nFROM revenue_with_lag\nORDER BY quarter",
+    "generated_sql": "WITH quarterly_revenue AS (\n  SELECT\n    strftime('%Y-%m', l_shipdate) AS ship_month,\n    SUM(l_extendedprice * (\n      1 - l_discount\n    )) AS revenue\n  FROM lineitem\n  WHERE\n    l_shipdate BETWEEN '1995-01-01' AND '1995-12-31'\n  GROUP BY\n    1\n), quarterly_data AS (\n  SELECT\n    ship_month,\n    revenue,\n    LAG(revenue, 1, 0) OVER (ORDER BY ship_month) AS prev_revenue\n  FROM quarterly_revenue\n), quarterly_stats AS (\n  SELECT\n    ship_month,\n    revenue,\n    (\n      (\n        revenue - prev_revenue\n      ) * 100.0\n    ) / prev_revenue AS percentage_change,\n    SUM(revenue) OVER (ORDER BY ship_month) AS cumulative_revenue\n  FROM quarterly_data\n)\nSELECT\n  ship_month,\n  revenue,\n  percentage_change,\n  cumulative_revenue\nFROM quarterly_stats\nORDER BY\n  ship_month",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 16,
+    "nl": "Which suppliers from ASIA have parts that were ordered with above-average quantities in 1996, but only show suppliers whose total supply cost across all their parts exceeds the average supply cost of all European suppliers?",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH avg_quantity_1996 AS (\n  SELECT AVG(l_quantity) AS avg_qty\n  FROM lineitem l\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996\n),\neuropean_avg_supply_cost AS (\n  SELECT AVG(ps_supplycost) AS avg_supply_cost\n  FROM partsupp ps\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  WHERE r.r_name = 'EUROPE'\n),\nasian_suppliers_above_avg AS (\n  SELECT DISTINCT s.s_suppkey, s.s_name\n  FROM supplier s\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  JOIN lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  CROSS JOIN avg_quantity_1996 aq\n  WHERE r.r_name = 'ASIA'\n    AND EXTRACT(YEAR FROM o.o_orderdate) = 1996\n    AND l.l_quantity > aq.avg_qty\n),\nsupplier_total_costs AS (\n  SELECT \n    s.s_suppkey,\n    s.s_name,\n    SUM(ps.ps_supplycost) AS total_supply_cost\n  FROM asian_suppliers_above_avg s\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  GROUP BY s.s_suppkey, s.s_name\n)\nSELECT \n  stc.s_suppkey,\n  stc.s_name,\n  stc.total_supply_cost\nFROM supplier_total_costs stc\nCROSS JOIN european_avg_supply_cost eac\nWHERE stc.total_supply_cost > eac.avg_supply_cost\nORDER BY stc.total_supply_cost DESC",
+    "generated_sql": "SELECT s.s_suppkey, s.s_name\nFROM supplier s\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nJOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\nJOIN part p ON ps.ps_partkey = p.p_partkey\nJOIN lineitem l ON p.p_partkey = l.l_partkey\nJOIN orders o ON l.l_orderkey = o.o_orderkey\nWHERE r.r_name = 'ASIA'\n  AND EXTRACT(YEAR FROM o.o_orderdate) = 1996\n  AND l.l_quantity > (\n    SELECT AVG(l2.l_quantity)\n    FROM lineitem l2\n    JOIN orders o2 ON l2.l_orderkey = o2.o_orderkey\n    WHERE EXTRACT(YEAR FROM o2.o_orderdate) = 1996\n  )\nGROUP BY s.s_suppkey, s.s_name\nHAVING SUM(ps.ps_supplycost) > (\n  SELECT AVG(ps2.ps_supplycost)\n  FROM partsupp ps2\n  JOIN supplier s2 ON ps2.ps_suppkey = s2.s_suppkey\n  JOIN nation n2 ON s2.s_nationkey = n2.n_nationkey\n  JOIN region r2 ON n2.n_regionkey = r2.r_regionkey\n  WHERE r2.r_name = 'EUROPE'\n)",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 16,
+    "nl": "Which suppliers from ASIA have parts that were ordered with above-average quantities in 1996, but only show suppliers whose total supply cost across all their parts exceeds the average supply cost of all European suppliers?",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH avg_quantity_1996 AS (\n  SELECT AVG(l_quantity) AS avg_qty\n  FROM lineitem l\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996\n),\neuropean_avg_supply_cost AS (\n  SELECT AVG(ps_supplycost) AS avg_supply_cost\n  FROM partsupp ps\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  WHERE r.r_name = 'EUROPE'\n),\nasian_suppliers_above_avg AS (\n  SELECT DISTINCT s.s_suppkey, s.s_name\n  FROM supplier s\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  JOIN lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  CROSS JOIN avg_quantity_1996 aq\n  WHERE r.r_name = 'ASIA'\n    AND EXTRACT(YEAR FROM o.o_orderdate) = 1996\n    AND l.l_quantity > aq.avg_qty\n),\nsupplier_total_costs AS (\n  SELECT \n    s.s_suppkey,\n    s.s_name,\n    SUM(ps.ps_supplycost) AS total_supply_cost\n  FROM asian_suppliers_above_avg s\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  GROUP BY s.s_suppkey, s.s_name\n)\nSELECT \n  stc.s_suppkey,\n  stc.s_name,\n  stc.total_supply_cost\nFROM supplier_total_costs stc\nCROSS JOIN european_avg_supply_cost eac\nWHERE stc.total_supply_cost > eac.avg_supply_cost\nORDER BY stc.total_supply_cost DESC",
+    "generated_sql": "SELECT DISTINCT s.s_suppkey, s.s_name\nFROM supplier s\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nJOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\nJOIN lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\nJOIN orders o ON l.l_orderkey = o.o_orderkey\nWHERE r.r_name = 'ASIA'\nAND EXTRACT(YEAR FROM o.o_orderdate) = 1996\nAND l.l_quantity > (SELECT AVG(l2.l_quantity) FROM lineitem l2 JOIN orders o2 ON l2.l_orderkey = o2.o_orderkey WHERE EXTRACT(YEAR FROM o2.o_orderdate) = 1996)\nAND s.s_suppkey IN (\n    SELECT ps2.ps_suppkey\n    FROM partsupp ps2\n    GROUP BY ps2.ps_suppkey\n    HAVING SUM(ps2.ps_supplycost) > (\n        SELECT AVG(total_cost)\n        FROM (\n            SELECT SUM(ps3.ps_supplycost) as total_cost\n            FROM partsupp ps3\n            JOIN supplier s3 ON ps3.ps_suppkey = s3.s_suppkey\n            JOIN nation n3 ON s3.s_nationkey = n3.n_nationkey\n            JOIN region r3 ON n3.n_regionkey = r3.r_regionkey\n            WHERE r3.r_name = 'EUROPE'\n            GROUP BY ps3.ps_suppkey\n        ) european_costs\n    )\n)",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 16,
+    "nl": "Which suppliers from ASIA have parts that were ordered with above-average quantities in 1996, but only show suppliers whose total supply cost across all their parts exceeds the average supply cost of all European suppliers?",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH avg_quantity_1996 AS (\n  SELECT AVG(l_quantity) AS avg_qty\n  FROM lineitem l\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996\n),\neuropean_avg_supply_cost AS (\n  SELECT AVG(ps_supplycost) AS avg_supply_cost\n  FROM partsupp ps\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  WHERE r.r_name = 'EUROPE'\n),\nasian_suppliers_above_avg AS (\n  SELECT DISTINCT s.s_suppkey, s.s_name\n  FROM supplier s\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  JOIN lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  CROSS JOIN avg_quantity_1996 aq\n  WHERE r.r_name = 'ASIA'\n    AND EXTRACT(YEAR FROM o.o_orderdate) = 1996\n    AND l.l_quantity > aq.avg_qty\n),\nsupplier_total_costs AS (\n  SELECT \n    s.s_suppkey,\n    s.s_name,\n    SUM(ps.ps_supplycost) AS total_supply_cost\n  FROM asian_suppliers_above_avg s\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  GROUP BY s.s_suppkey, s.s_name\n)\nSELECT \n  stc.s_suppkey,\n  stc.s_name,\n  stc.total_supply_cost\nFROM supplier_total_costs stc\nCROSS JOIN european_avg_supply_cost eac\nWHERE stc.total_supply_cost > eac.avg_supply_cost\nORDER BY stc.total_supply_cost DESC",
+    "generated_sql": "SELECT\n  s.s_name,\n  s.s_acctbal,\n  n.n_name\nFROM supplier AS s\nJOIN nation AS n\n  ON s.s_nationkey = n.n_nationkey\nJOIN partsupp AS ps\n  ON s.s_suppkey = ps.ps_suppkey\nJOIN lineitem AS l\n  ON ps.ps_partkey = l.l_partkey\nWHERE\n  n.n_name = 'ASIA'\n  AND l.l_shipdate BETWEEN '1996-01-01' AND '1996-12-31'\n  AND l.l_quantity > (\n    SELECT\n      AVG(l.l_quantity)\n    FROM lineitem AS l\n  )\nGROUP BY\n  s.s_suppkey,\n  s.s_name,\n  s.s_acctbal,\n  n.n_name\nHAVING\n  SUM(ps.ps_supplycost) > (\n    SELECT\n      AVG(ps.ps_supplycost)\n    FROM supplier AS s\n    JOIN nation AS n\n      ON s.s_nationkey = n.n_nationkey\n    JOIN partsupp AS ps\n      ON s.s_suppkey = ps.ps_suppkey\n    WHERE\n      n.n_name = 'EUROPE'\n  )",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 17,
+    "nl": "Show me customers from the MACHINERY segment who have placed orders in both 1995 and 1996, along with their year-over-year order count change and the difference between their account balance and the median account balance of all customers in their country.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH machinery_customers AS (\n  SELECT c_custkey, c_name, c_acctbal, c_nationkey\n  FROM customer \n  WHERE c_mktsegment = 'MACHINERY'\n),\ncustomer_orders_by_year AS (\n  SELECT \n    mc.c_custkey,\n    mc.c_name,\n    mc.c_acctbal,\n    mc.c_nationkey,\n    EXTRACT(YEAR FROM o.o_orderdate) AS order_year,\n    COUNT(*) AS order_count\n  FROM machinery_customers mc\n  JOIN orders o ON mc.c_custkey = o.o_custkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n  GROUP BY mc.c_custkey, mc.c_name, mc.c_acctbal, mc.c_nationkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\ncustomers_both_years AS (\n  SELECT c_custkey\n  FROM customer_orders_by_year\n  GROUP BY c_custkey\n  HAVING COUNT(DISTINCT order_year) = 2\n),\nyoy_comparison AS (\n  SELECT \n    cby.c_custkey,\n    cby.c_name,\n    cby.c_acctbal,\n    cby.c_nationkey,\n    SUM(CASE WHEN cby.order_year = 1995 THEN cby.order_count ELSE 0 END) AS orders_1995,\n    SUM(CASE WHEN cby.order_year = 1996 THEN cby.order_count ELSE 0 END) AS orders_1996\n  FROM customer_orders_by_year cby\n  JOIN customers_both_years cty ON cby.c_custkey = cty.c_custkey\n  GROUP BY cby.c_custkey, cby.c_name, cby.c_acctbal, cby.c_nationkey\n),\ncountry_median_balance AS (\n  SELECT \n    c_nationkey,\n    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c_acctbal) AS median_balance\n  FROM customer\n  GROUP BY c_nationkey\n)\nSELECT \n  yoy.c_custkey,\n  yoy.c_name,\n  yoy.orders_1995,\n  yoy.orders_1996,\n  (yoy.orders_1996 - yoy.orders_1995) AS yoy_order_change,\n  yoy.c_acctbal,\n  cmb.median_balance,\n  (yoy.c_acctbal - cmb.median_balance) AS balance_vs_country_median\nFROM yoy_comparison yoy\nJOIN country_median_balance cmb ON yoy.c_nationkey = cmb.c_nationkey\nORDER BY yoy_order_change DESC",
+    "generated_sql": "WITH customer_orders AS (\n    SELECT o.o_custkey, EXTRACT(YEAR FROM o.o_orderdate) AS order_year, COUNT(o.o_orderkey) AS order_count\n    FROM orders o\n    JOIN customer c ON o.o_custkey = c.c_custkey\n    WHERE c.c_mktsegment = 'MACHINERY' AND EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY o.o_custkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\nyearly_order_counts AS (\n    SELECT o1.o_custkey, o1.order_count AS order_count_1995, o2.order_count AS order_count_1996\n    FROM customer_orders o1\n    JOIN customer_orders o2 ON o1.o_custkey = o2.o_custkey\n    WHERE o1.order_year = 1995 AND o2.order_year = 1996\n),\nmedian_acctbal AS (\n    SELECT c.c_nationkey, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c.c_acctbal) AS median_acctbal\n    FROM customer c\n    GROUP BY c.c_nationkey\n)\nSELECT c.c_custkey, c.c_name, c.c_nationkey, c.c_acctbal, \n       yoc.order_count_1995, yoc.order_count_1996, \n       (yoc.order_count_1996 - yoc.order_count_1995) AS yoy_order_count_change,\n       (c.c_acctbal - ma.median_acctbal) AS acctbal_difference\nFROM yearly_order_counts yoc\nJOIN customer c ON yoc.o_custkey = c.c_custkey\nJOIN median_acctbal ma ON c.c_nationkey = ma.c_nationkey",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 17,
+    "nl": "Show me customers from the MACHINERY segment who have placed orders in both 1995 and 1996, along with their year-over-year order count change and the difference between their account balance and the median account balance of all customers in their country.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH machinery_customers AS (\n  SELECT c_custkey, c_name, c_acctbal, c_nationkey\n  FROM customer \n  WHERE c_mktsegment = 'MACHINERY'\n),\ncustomer_orders_by_year AS (\n  SELECT \n    mc.c_custkey,\n    mc.c_name,\n    mc.c_acctbal,\n    mc.c_nationkey,\n    EXTRACT(YEAR FROM o.o_orderdate) AS order_year,\n    COUNT(*) AS order_count\n  FROM machinery_customers mc\n  JOIN orders o ON mc.c_custkey = o.o_custkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n  GROUP BY mc.c_custkey, mc.c_name, mc.c_acctbal, mc.c_nationkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\ncustomers_both_years AS (\n  SELECT c_custkey\n  FROM customer_orders_by_year\n  GROUP BY c_custkey\n  HAVING COUNT(DISTINCT order_year) = 2\n),\nyoy_comparison AS (\n  SELECT \n    cby.c_custkey,\n    cby.c_name,\n    cby.c_acctbal,\n    cby.c_nationkey,\n    SUM(CASE WHEN cby.order_year = 1995 THEN cby.order_count ELSE 0 END) AS orders_1995,\n    SUM(CASE WHEN cby.order_year = 1996 THEN cby.order_count ELSE 0 END) AS orders_1996\n  FROM customer_orders_by_year cby\n  JOIN customers_both_years cty ON cby.c_custkey = cty.c_custkey\n  GROUP BY cby.c_custkey, cby.c_name, cby.c_acctbal, cby.c_nationkey\n),\ncountry_median_balance AS (\n  SELECT \n    c_nationkey,\n    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c_acctbal) AS median_balance\n  FROM customer\n  GROUP BY c_nationkey\n)\nSELECT \n  yoy.c_custkey,\n  yoy.c_name,\n  yoy.orders_1995,\n  yoy.orders_1996,\n  (yoy.orders_1996 - yoy.orders_1995) AS yoy_order_change,\n  yoy.c_acctbal,\n  cmb.median_balance,\n  (yoy.c_acctbal - cmb.median_balance) AS balance_vs_country_median\nFROM yoy_comparison yoy\nJOIN country_median_balance cmb ON yoy.c_nationkey = cmb.c_nationkey\nORDER BY yoy_order_change DESC",
+    "generated_sql": "WITH customer_orders AS (\n  SELECT \n    c.c_custkey,\n    c.c_name,\n    c.c_acctbal,\n    c.c_nationkey,\n    EXTRACT(YEAR FROM o.o_orderdate) as order_year,\n    COUNT(*) as order_count\n  FROM customer c\n  JOIN orders o ON c.c_custkey = o.o_custkey\n  WHERE c.c_mktsegment = 'MACHINERY'\n    AND EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n  GROUP BY c.c_custkey, c.c_name, c.c_acctbal, c.c_nationkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\ncustomer_both_years AS (\n  SELECT c_custkey\n  FROM customer_orders\n  GROUP BY c_custkey\n  HAVING COUNT(DISTINCT order_year) = 2\n),\norder_counts_pivot AS (\n  SELECT \n    co.c_custkey,\n    co.c_name,\n    co.c_acctbal,\n    co.c_nationkey,\n    SUM(CASE WHEN co.order_year = 1995 THEN co.order_count ELSE 0 END) as orders_1995,\n    SUM(CASE WHEN co.order_year = 1996 THEN co.order_count ELSE 0 END) as orders_1996\n  FROM customer_orders co\n  JOIN customer_both_years cby ON co.c_custkey = cby.c_custkey\n  GROUP BY co.c_custkey, co.c_name, co.c_acctbal, co.c_nationkey\n),\nmedian_balances AS (\n  SELECT \n    c_nationkey,\n    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c_acctbal) as median_balance\n  FROM customer\n  GROUP BY c_nationkey\n)\nSELECT \n  ocp.c_custkey,\n  ocp.c_name,\n  ocp.orders_1995,\n  ocp.orders_1996,\n  (ocp.orders_1996 - ocp.orders_1995) as yoy_order_change,\n  ocp.c_acctbal,\n  mb.median_balance,\n  (ocp.c_acctbal - mb.median_balance) as balance_vs_median\nFROM order_counts_pivot ocp\nJOIN median_balances mb ON ocp.c_nationkey = mb.c_nationkey\nORDER BY ocp.c_custkey",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 17,
+    "nl": "Show me customers from the MACHINERY segment who have placed orders in both 1995 and 1996, along with their year-over-year order count change and the difference between their account balance and the median account balance of all customers in their country.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH machinery_customers AS (\n  SELECT c_custkey, c_name, c_acctbal, c_nationkey\n  FROM customer \n  WHERE c_mktsegment = 'MACHINERY'\n),\ncustomer_orders_by_year AS (\n  SELECT \n    mc.c_custkey,\n    mc.c_name,\n    mc.c_acctbal,\n    mc.c_nationkey,\n    EXTRACT(YEAR FROM o.o_orderdate) AS order_year,\n    COUNT(*) AS order_count\n  FROM machinery_customers mc\n  JOIN orders o ON mc.c_custkey = o.o_custkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n  GROUP BY mc.c_custkey, mc.c_name, mc.c_acctbal, mc.c_nationkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\ncustomers_both_years AS (\n  SELECT c_custkey\n  FROM customer_orders_by_year\n  GROUP BY c_custkey\n  HAVING COUNT(DISTINCT order_year) = 2\n),\nyoy_comparison AS (\n  SELECT \n    cby.c_custkey,\n    cby.c_name,\n    cby.c_acctbal,\n    cby.c_nationkey,\n    SUM(CASE WHEN cby.order_year = 1995 THEN cby.order_count ELSE 0 END) AS orders_1995,\n    SUM(CASE WHEN cby.order_year = 1996 THEN cby.order_count ELSE 0 END) AS orders_1996\n  FROM customer_orders_by_year cby\n  JOIN customers_both_years cty ON cby.c_custkey = cty.c_custkey\n  GROUP BY cby.c_custkey, cby.c_name, cby.c_acctbal, cby.c_nationkey\n),\ncountry_median_balance AS (\n  SELECT \n    c_nationkey,\n    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c_acctbal) AS median_balance\n  FROM customer\n  GROUP BY c_nationkey\n)\nSELECT \n  yoy.c_custkey,\n  yoy.c_name,\n  yoy.orders_1995,\n  yoy.orders_1996,\n  (yoy.orders_1996 - yoy.orders_1995) AS yoy_order_change,\n  yoy.c_acctbal,\n  cmb.median_balance,\n  (yoy.c_acctbal - cmb.median_balance) AS balance_vs_country_median\nFROM yoy_comparison yoy\nJOIN country_median_balance cmb ON yoy.c_nationkey = cmb.c_nationkey\nORDER BY yoy_order_change DESC",
+    "generated_sql": "WITH customer_orders AS (\n  SELECT\n    c_custkey,\n    strftime('%Y', o_orderdate) AS order_year,\n    COUNT(o_orderkey) AS order_count\n  FROM customer\n  JOIN orders\n    ON c_custkey = o_custkey\n  WHERE\n    c_mktsegment = 'MACHINERY'\n  GROUP BY\n    c_custkey,\n    order_year\n), customer_orders_1995 AS (\n  SELECT\n    c_custkey,\n    order_count AS order_count_1995\n  FROM customer_orders\n  WHERE\n    order_year = '1995'\n), customer_orders_1996 AS (\n  SELECT\n    c_custkey,\n    order_count AS order_count_1996\n  FROM customer_orders\n  WHERE\n    order_year = '1996'\n), customer_orders_combined AS (\n  SELECT\n    co1995.c_custkey,\n    co1995.order_count_1995,\n    co1996.order_count_1996\n  FROM customer_orders_1995 AS co1995\n  JOIN customer_orders_1996 AS co1996\n    ON co1995.c_custkey = co1996.c_custkey\n), customer_nation_median AS (\n  SELECT\n    c_nationkey,\n    PERCENTILE_CONT(c_acctbal, 0.5) WITHIN GROUP (ORDER BY c_acctbal) AS median_acctbal\n  FROM customer\n  GROUP BY\n    c_nationkey\n)\nSELECT\n  c.c_name,\n  c.c_acctbal,\n  co.order_count_1995,\n  co.order_count_1996,\n  co.order_count_1996 - co.order_count_1995 AS order_count_change,\n  c.c_acctbal - cnm.median_acctbal AS acctbal_difference_from_median\nFROM customer AS c\nJOIN customer_orders_combined AS co\n  ON c.c_custkey = co.c_custkey\nJOIN customer_nation_median AS cnm\n  ON c.c_nationkey = cnm.c_nationkey",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 18,
+    "nl": "For parts with retail price above 1500, show me the manufacturing brands that have parts supplied by suppliers from at least 3 different regions, and calculate the weighted average supply cost where the weight is the available quantity.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH expensive_parts AS (\n  SELECT p_partkey, p_brand, p_retailprice\n  FROM part \n  WHERE p_retailprice > 1500\n),\npart_supplier_regions AS (\n  SELECT \n    ep.p_partkey,\n    ep.p_brand,\n    ps.ps_suppkey,\n    ps.ps_supplycost,\n    ps.ps_availqty,\n    r.r_name AS region_name\n  FROM expensive_parts ep\n  JOIN partsupp ps ON ep.p_partkey = ps.ps_partkey\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n),\nbrand_region_counts AS (\n  SELECT \n    p_brand,\n    COUNT(DISTINCT region_name) AS region_count\n  FROM part_supplier_regions\n  GROUP BY p_brand\n  HAVING COUNT(DISTINCT region_name) >= 3\n),\nqualifying_brand_data AS (\n  SELECT \n    psr.p_brand,\n    psr.ps_supplycost,\n    psr.ps_availqty\n  FROM part_supplier_regions psr\n  JOIN brand_region_counts brc ON psr.p_brand = brc.p_brand\n)\nSELECT \n  p_brand,\n  COUNT(*) AS total_part_supplier_combinations,\n  SUM(ps_supplycost * ps_availqty) / SUM(ps_availqty) AS weighted_avg_supply_cost,\n  SUM(ps_availqty) AS total_available_quantity\nFROM qualifying_brand_data\nGROUP BY p_brand\nORDER BY weighted_avg_supply_cost DESC",
+    "generated_sql": "SELECT p.p_brand, \n       SUM(ps.ps_supplycost * ps.ps_availqty) / SUM(ps.ps_availqty) AS weighted_avg_supply_cost\nFROM part p\nJOIN partsupp ps ON p.p_partkey = ps.ps_partkey\nJOIN supplier s ON ps.ps_suppkey = s.s_suppkey\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nWHERE p.p_retailprice > 1500\nGROUP BY p.p_brand\nHAVING COUNT(DISTINCT r.r_regionkey) >= 3",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 18,
+    "nl": "For parts with retail price above 1500, show me the manufacturing brands that have parts supplied by suppliers from at least 3 different regions, and calculate the weighted average supply cost where the weight is the available quantity.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH expensive_parts AS (\n  SELECT p_partkey, p_brand, p_retailprice\n  FROM part \n  WHERE p_retailprice > 1500\n),\npart_supplier_regions AS (\n  SELECT \n    ep.p_partkey,\n    ep.p_brand,\n    ps.ps_suppkey,\n    ps.ps_supplycost,\n    ps.ps_availqty,\n    r.r_name AS region_name\n  FROM expensive_parts ep\n  JOIN partsupp ps ON ep.p_partkey = ps.ps_partkey\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n),\nbrand_region_counts AS (\n  SELECT \n    p_brand,\n    COUNT(DISTINCT region_name) AS region_count\n  FROM part_supplier_regions\n  GROUP BY p_brand\n  HAVING COUNT(DISTINCT region_name) >= 3\n),\nqualifying_brand_data AS (\n  SELECT \n    psr.p_brand,\n    psr.ps_supplycost,\n    psr.ps_availqty\n  FROM part_supplier_regions psr\n  JOIN brand_region_counts brc ON psr.p_brand = brc.p_brand\n)\nSELECT \n  p_brand,\n  COUNT(*) AS total_part_supplier_combinations,\n  SUM(ps_supplycost * ps_availqty) / SUM(ps_availqty) AS weighted_avg_supply_cost,\n  SUM(ps_availqty) AS total_available_quantity\nFROM qualifying_brand_data\nGROUP BY p_brand\nORDER BY weighted_avg_supply_cost DESC",
+    "generated_sql": "SELECT \n    p.p_brand,\n    SUM(ps.ps_supplycost * ps.ps_availqty) / SUM(ps.ps_availqty) as weighted_avg_supply_cost\nFROM part p\nJOIN partsupp ps ON p.p_partkey = ps.ps_partkey\nJOIN supplier s ON ps.ps_suppkey = s.s_suppkey\nJOIN nation n ON s.s_nationkey = n.n_nationkey\nJOIN region r ON n.n_regionkey = r.r_regionkey\nWHERE p.p_retailprice > 1500\nGROUP BY p.p_brand\nHAVING COUNT(DISTINCT r.r_regionkey) >= 3",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 18,
+    "nl": "For parts with retail price above 1500, show me the manufacturing brands that have parts supplied by suppliers from at least 3 different regions, and calculate the weighted average supply cost where the weight is the available quantity.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH expensive_parts AS (\n  SELECT p_partkey, p_brand, p_retailprice\n  FROM part \n  WHERE p_retailprice > 1500\n),\npart_supplier_regions AS (\n  SELECT \n    ep.p_partkey,\n    ep.p_brand,\n    ps.ps_suppkey,\n    ps.ps_supplycost,\n    ps.ps_availqty,\n    r.r_name AS region_name\n  FROM expensive_parts ep\n  JOIN partsupp ps ON ep.p_partkey = ps.ps_partkey\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n),\nbrand_region_counts AS (\n  SELECT \n    p_brand,\n    COUNT(DISTINCT region_name) AS region_count\n  FROM part_supplier_regions\n  GROUP BY p_brand\n  HAVING COUNT(DISTINCT region_name) >= 3\n),\nqualifying_brand_data AS (\n  SELECT \n    psr.p_brand,\n    psr.ps_supplycost,\n    psr.ps_availqty\n  FROM part_supplier_regions psr\n  JOIN brand_region_counts brc ON psr.p_brand = brc.p_brand\n)\nSELECT \n  p_brand,\n  COUNT(*) AS total_part_supplier_combinations,\n  SUM(ps_supplycost * ps_availqty) / SUM(ps_availqty) AS weighted_avg_supply_cost,\n  SUM(ps_availqty) AS total_available_quantity\nFROM qualifying_brand_data\nGROUP BY p_brand\nORDER BY weighted_avg_supply_cost DESC",
+    "generated_sql": "SELECT\n  p.p_brand,\n  SUM(ps.ps_availqty * ps.ps_supplycost) / SUM(ps.ps_availqty)\nFROM part AS p\nJOIN partsupp AS ps\n  ON p.p_partkey = ps.ps_partkey\nJOIN supplier AS s\n  ON ps.ps_suppkey = s.s_suppkey\nJOIN nation AS n\n  ON s.s_nationkey = n.n_nationkey\nJOIN region AS r\n  ON n.n_regionkey = r.r_regionkey\nWHERE\n  p.p_retailprice > 1500\nGROUP BY\n  p.p_brand\nHAVING\n  COUNT(DISTINCT r.r_name) >= 3",
+    "backend": "gemini-flash"
+  },
+  {
+    "query_id": 19,
+    "nl": "For suppliers from EUROPE, show me their quarterly revenue trends in 1996 compared to 1995, but only include suppliers who had parts ordered in both years and whose total supply cost is above the median supply cost of all suppliers in their region.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH supplier_regions AS (\n    SELECT s.s_suppkey, s.s_name, n.n_name as nation, r.r_name as region\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    WHERE r.r_name = 'EUROPE'\n),\nregional_median AS (\n    SELECT r.r_name as region, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) as median_supply_cost\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n    GROUP BY r.r_name\n),\nsupplier_supply_costs AS (\n    SELECT sr.s_suppkey, sr.s_name, sr.region, SUM(ps.ps_supplycost) as total_supply_cost\n    FROM supplier_regions sr\n    JOIN partsupp ps ON sr.s_suppkey = ps.ps_suppkey\n    GROUP BY sr.s_suppkey, sr.s_name, sr.region\n),\nqualified_suppliers AS (\n    SELECT ssc.s_suppkey, ssc.s_name\n    FROM supplier_supply_costs ssc\n    JOIN regional_median rm ON ssc.region = rm.region\n    WHERE ssc.total_supply_cost > rm.median_supply_cost\n),\nsuppliers_with_orders AS (\n    SELECT DISTINCT qs.s_suppkey, qs.s_name\n    FROM qualified_suppliers qs\n    JOIN lineitem l ON qs.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY qs.s_suppkey, qs.s_name\n    HAVING COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\n),\nquarterly_revenue AS (\n    SELECT \n        swo.s_suppkey,\n        swo.s_name,\n        EXTRACT(YEAR FROM o.o_orderdate) as order_year,\n        EXTRACT(QUARTER FROM o.o_orderdate) as order_quarter,\n        SUM(l.l_extendedprice * (1 - l.l_discount)) as quarterly_revenue\n    FROM suppliers_with_orders swo\n    JOIN lineitem l ON swo.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY swo.s_suppkey, swo.s_name, EXTRACT(YEAR FROM o.o_orderdate), EXTRACT(QUARTER FROM o.o_orderdate)\n),\nrevenue_comparison AS (\n    SELECT \n        qr1996.s_suppkey,\n        qr1996.s_name,\n        qr1996.order_quarter,\n        qr1996.quarterly_revenue as revenue_1996,\n        COALESCE(qr1995.quarterly_revenue, 0) as revenue_1995,\n        CASE \n            WHEN COALESCE(qr1995.quarterly_revenue, 0) > 0 \n            THEN ((qr1996.quarterly_revenue - qr1995.quarterly_revenue) / qr1995.quarterly_revenue) * 100\n            ELSE NULL\n        END as revenue_change_pct\n    FROM quarterly_revenue qr1996\n    LEFT JOIN quarterly_revenue qr1995 ON qr1996.s_suppkey = qr1995.s_suppkey \n        AND qr1996.order_quarter = qr1995.order_quarter \n        AND qr1995.order_year = 1995\n    WHERE qr1996.order_year = 1996\n)\nSELECT \n    s_name as supplier_name,\n    order_quarter as quarter,\n    ROUND(revenue_1995, 2) as revenue_1995,\n    ROUND(revenue_1996, 2) as revenue_1996,\n    ROUND(revenue_change_pct, 2) as pct_change\nFROM revenue_comparison\nORDER BY s_name, order_quarter",
+    "generated_sql": "SELECT \n    s.s_suppkey, \n    EXTRACT(YEAR FROM o.o_orderdate) AS year, \n    EXTRACT(QUARTER FROM o.o_orderdate) AS quarter, \n    SUM(l.l_extendedprice * (1 - l.l_discount)) AS revenue\nFROM \n    supplier s\nJOIN \n    nation n ON s.s_nationkey = n.n_nationkey\nJOIN \n    region r ON n.n_regionkey = r.r_regionkey\nJOIN \n    partsupp ps ON s.s_suppkey = ps.ps_suppkey\nJOIN \n    lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\nJOIN \n    orders o ON l.l_orderkey = o.o_orderkey\nWHERE \n    r.r_name = 'EUROPE'\n    AND o.o_orderdate BETWEEN '1995-01-01' AND '1996-12-31'\n    AND ps.ps_supplycost > (\n        SELECT \n            PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps2.ps_supplycost) \n        FROM \n            partsupp ps2\n        JOIN \n            supplier s2 ON ps2.ps_suppkey = s2.s_suppkey\n        JOIN \n            nation n2 ON s2.s_nationkey = n2.n_nationkey\n        WHERE \n            n2.n_regionkey = n.n_regionkey\n    )\nGROUP BY \n    s.s_suppkey, year, quarter\nHAVING \n    COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\nORDER BY \n    s.s_suppkey, year, quarter",
+    "backend": "gpt-4o"
+  },
+  {
+    "query_id": 19,
+    "nl": "For suppliers from EUROPE, show me their quarterly revenue trends in 1996 compared to 1995, but only include suppliers who had parts ordered in both years and whose total supply cost is above the median supply cost of all suppliers in their region.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH supplier_regions AS (\n    SELECT s.s_suppkey, s.s_name, n.n_name as nation, r.r_name as region\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    WHERE r.r_name = 'EUROPE'\n),\nregional_median AS (\n    SELECT r.r_name as region, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) as median_supply_cost\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n    GROUP BY r.r_name\n),\nsupplier_supply_costs AS (\n    SELECT sr.s_suppkey, sr.s_name, sr.region, SUM(ps.ps_supplycost) as total_supply_cost\n    FROM supplier_regions sr\n    JOIN partsupp ps ON sr.s_suppkey = ps.ps_suppkey\n    GROUP BY sr.s_suppkey, sr.s_name, sr.region\n),\nqualified_suppliers AS (\n    SELECT ssc.s_suppkey, ssc.s_name\n    FROM supplier_supply_costs ssc\n    JOIN regional_median rm ON ssc.region = rm.region\n    WHERE ssc.total_supply_cost > rm.median_supply_cost\n),\nsuppliers_with_orders AS (\n    SELECT DISTINCT qs.s_suppkey, qs.s_name\n    FROM qualified_suppliers qs\n    JOIN lineitem l ON qs.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY qs.s_suppkey, qs.s_name\n    HAVING COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\n),\nquarterly_revenue AS (\n    SELECT \n        swo.s_suppkey,\n        swo.s_name,\n        EXTRACT(YEAR FROM o.o_orderdate) as order_year,\n        EXTRACT(QUARTER FROM o.o_orderdate) as order_quarter,\n        SUM(l.l_extendedprice * (1 - l.l_discount)) as quarterly_revenue\n    FROM suppliers_with_orders swo\n    JOIN lineitem l ON swo.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY swo.s_suppkey, swo.s_name, EXTRACT(YEAR FROM o.o_orderdate), EXTRACT(QUARTER FROM o.o_orderdate)\n),\nrevenue_comparison AS (\n    SELECT \n        qr1996.s_suppkey,\n        qr1996.s_name,\n        qr1996.order_quarter,\n        qr1996.quarterly_revenue as revenue_1996,\n        COALESCE(qr1995.quarterly_revenue, 0) as revenue_1995,\n        CASE \n            WHEN COALESCE(qr1995.quarterly_revenue, 0) > 0 \n            THEN ((qr1996.quarterly_revenue - qr1995.quarterly_revenue) / qr1995.quarterly_revenue) * 100\n            ELSE NULL\n        END as revenue_change_pct\n    FROM quarterly_revenue qr1996\n    LEFT JOIN quarterly_revenue qr1995 ON qr1996.s_suppkey = qr1995.s_suppkey \n        AND qr1996.order_quarter = qr1995.order_quarter \n        AND qr1995.order_year = 1995\n    WHERE qr1996.order_year = 1996\n)\nSELECT \n    s_name as supplier_name,\n    order_quarter as quarter,\n    ROUND(revenue_1995, 2) as revenue_1995,\n    ROUND(revenue_1996, 2) as revenue_1996,\n    ROUND(revenue_change_pct, 2) as pct_change\nFROM revenue_comparison\nORDER BY s_name, order_quarter",
+    "generated_sql": "WITH european_suppliers AS (\n    SELECT s.s_suppkey, s.s_name, s.s_nationkey\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    WHERE r.r_name = 'EUROPE'\n),\nmedian_supply_cost AS (\n    SELECT n.n_regionkey, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) as median_cost\n    FROM partsupp ps\n    JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    GROUP BY n.n_regionkey\n),\nqualified_suppliers AS (\n    SELECT es.s_suppkey\n    FROM european_suppliers es\n    JOIN nation n ON es.s_nationkey = n.n_nationkey\n    JOIN partsupp ps ON es.s_suppkey = ps.ps_suppkey\n    JOIN median_supply_cost msc ON n.n_regionkey = msc.n_regionkey\n    WHERE ps.ps_supplycost > msc.median_cost\n    GROUP BY es.s_suppkey\n    HAVING SUM(ps.ps_supplycost) > (\n        SELECT msc2.median_cost\n        FROM median_supply_cost msc2\n        JOIN nation n2 ON msc2.n_regionkey = n2.n_regionkey\n        WHERE n2.n_nationkey = es.s_nationkey\n    )\n),\nsuppliers_with_orders_both_years AS (\n    SELECT DISTINCT l.l_suppkey\n    FROM lineitem l\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY l.l_suppkey\n    HAVING COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\n),\nquarterly_revenue AS (\n    SELECT \n        es.s_suppkey,\n        es.s_name,\n        EXTRACT(YEAR FROM o.o_orderdate) as year,\n        EXTRACT(QUARTER FROM o.o_orderdate) as quarter,\n        SUM(l.l_extendedprice * (1 - l.l_discount)) as revenue\n    FROM european_suppliers es\n    JOIN qualified_suppliers qs ON es.s_suppkey = qs.s_suppkey\n    JOIN suppliers_with_orders_both_years swob ON es.s_suppkey = swob.l_suppkey\n    JOIN lineitem l ON es.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY es.s_suppkey, es.s_name, EXTRACT(YEAR FROM o.o_orderdate), EXTRACT(QUARTER FROM o.o_orderdate)\n)\nSELECT \n    s_suppkey,\n    s_name,\n    year,\n    quarter,\n    revenue\nFROM quarterly_revenue\nORDER BY s_suppkey, year, quarter",
+    "backend": "claude-sonnet"
+  },
+  {
+    "query_id": 19,
+    "nl": "For suppliers from EUROPE, show me their quarterly revenue trends in 1996 compared to 1995, but only include suppliers who had parts ordered in both years and whose total supply cost is above the median supply cost of all suppliers in their region.",
+    "difficulty": "very_hard",
+    "ground_truth_sql": "WITH supplier_regions AS (\n    SELECT s.s_suppkey, s.s_name, n.n_name as nation, r.r_name as region\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    WHERE r.r_name = 'EUROPE'\n),\nregional_median AS (\n    SELECT r.r_name as region, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) as median_supply_cost\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n    GROUP BY r.r_name\n),\nsupplier_supply_costs AS (\n    SELECT sr.s_suppkey, sr.s_name, sr.region, SUM(ps.ps_supplycost) as total_supply_cost\n    FROM supplier_regions sr\n    JOIN partsupp ps ON sr.s_suppkey = ps.ps_suppkey\n    GROUP BY sr.s_suppkey, sr.s_name, sr.region\n),\nqualified_suppliers AS (\n    SELECT ssc.s_suppkey, ssc.s_name\n    FROM supplier_supply_costs ssc\n    JOIN regional_median rm ON ssc.region = rm.region\n    WHERE ssc.total_supply_cost > rm.median_supply_cost\n),\nsuppliers_with_orders AS (\n    SELECT DISTINCT qs.s_suppkey, qs.s_name\n    FROM qualified_suppliers qs\n    JOIN lineitem l ON qs.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY qs.s_suppkey, qs.s_name\n    HAVING COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\n),\nquarterly_revenue AS (\n    SELECT \n        swo.s_suppkey,\n        swo.s_name,\n        EXTRACT(YEAR FROM o.o_orderdate) as order_year,\n        EXTRACT(QUARTER FROM o.o_orderdate) as order_quarter,\n        SUM(l.l_extendedprice * (1 - l.l_discount)) as quarterly_revenue\n    FROM suppliers_with_orders swo\n    JOIN lineitem l ON swo.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY swo.s_suppkey, swo.s_name, EXTRACT(YEAR FROM o.o_orderdate), EXTRACT(QUARTER FROM o.o_orderdate)\n),\nrevenue_comparison AS (\n    SELECT \n        qr1996.s_suppkey,\n        qr1996.s_name,\n        qr1996.order_quarter,\n        qr1996.quarterly_revenue as revenue_1996,\n        COALESCE(qr1995.quarterly_revenue, 0) as revenue_1995,\n        CASE \n            WHEN COALESCE(qr1995.quarterly_revenue, 0) > 0 \n            THEN ((qr1996.quarterly_revenue - qr1995.quarterly_revenue) / qr1995.quarterly_revenue) * 100\n            ELSE NULL\n        END as revenue_change_pct\n    FROM quarterly_revenue qr1996\n    LEFT JOIN quarterly_revenue qr1995 ON qr1996.s_suppkey = qr1995.s_suppkey \n        AND qr1996.order_quarter = qr1995.order_quarter \n        AND qr1995.order_year = 1995\n    WHERE qr1996.order_year = 1996\n)\nSELECT \n    s_name as supplier_name,\n    order_quarter as quarter,\n    ROUND(revenue_1995, 2) as revenue_1995,\n    ROUND(revenue_1996, 2) as revenue_1996,\n    ROUND(revenue_change_pct, 2) as pct_change\nFROM revenue_comparison\nORDER BY s_name, order_quarter",
+    "generated_sql": "WITH supplier_revenue AS (\n  SELECT\n    s.s_suppkey,\n    DATE_TRUNC('quarter', l.l_shipdate) AS quarter,\n    SUM(l.l_extendedprice * (\n      1 - l.l_discount\n    )) AS revenue,\n    EXTRACT(\n      YEAR\n      FROM l.l_shipdate\n    ) AS ship_year\n  FROM supplier AS s\n  JOIN lineitem AS l\n    ON s.s_suppkey = l.l_suppkey\n  JOIN partsupp AS ps\n    ON l.l_partkey = ps.ps_partkey AND l.l_suppkey = ps.ps_suppkey\n  JOIN nation AS n\n    ON s.s_nationkey = n.n_nationkey\n  JOIN region AS r\n    ON n.n_regionkey = r.r_regionkey\n  WHERE\n    r.r_name = 'EUROPE'\n    AND EXTRACT(\n      YEAR\n      FROM l.l_shipdate\n    ) IN (\n      1995,\n      1996\n    )\n  GROUP BY\n    s.s_suppkey,\n    quarter,\n    ship_year\n), supplier_yearly_parts AS (\n  SELECT\n    s.s_suppkey,\n    COUNT(DISTINCT EXTRACT(YEAR FROM l.l_shipdate)) AS num_years\n  FROM supplier AS s\n  JOIN lineitem AS l\n    ON s.s_suppkey = l.l_suppkey\n  JOIN partsupp AS ps\n    ON l.l_partkey = ps.ps_partkey AND l.l_suppkey = ps.ps_suppkey\n  JOIN nation AS n\n    ON s.s_nationkey = n.n_nationkey\n  JOIN region AS r\n    ON n.n_regionkey = r.r_regionkey\n  WHERE\n    r.r_name = 'EUROPE'\n  GROUP BY\n    s.s_suppkey\n  HAVING\n    COUNT(DISTINCT EXTRACT(YEAR FROM l.l_shipdate)) = 2\n), supplier_median_cost AS (\n  SELECT\n    s.s_suppkey,\n    AVG(ps.ps_supplycost) AS median_supply_cost,\n    n.n_regionkey\n  FROM supplier AS s\n  JOIN partsupp AS ps\n    ON s.s_suppkey = ps.ps_suppkey\n  JOIN nation AS n\n    ON s.s_nationkey = n.n_nationkey\n  GROUP BY\n    s.s_suppkey,\n    n.n_regionkey\n), region_median_cost AS (\n  SELECT\n    n.n_regionkey,\n    PERCENTILE_CONT(ps.ps_supplycost, 0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) AS region_median_supply_cost\n  FROM supplier AS s\n  JOIN partsupp AS ps\n    ON s.s_suppkey = ps.ps_suppkey\n  JOIN nation AS n\n    ON s.s_nationkey = n.n_nationkey\n  JOIN region AS r\n    ON n.n_regionkey = r.r_regionkey\n  WHERE\n    r.r_name = 'EUROPE'\n  GROUP BY\n    n.n_regionkey\n)\nSELECT\n  sr.s_suppkey,\n  sr.quarter,\n  sr.ship_year,\n  sr.revenue\nFROM supplier_revenue AS sr\nJOIN supplier_yearly_parts AS syp\n  ON sr.s_suppkey = syp.s_suppkey\nJOIN supplier_median_cost AS smc\n  ON sr.s_suppkey = smc.s_suppkey\nJOIN region_median_cost AS rmc\n  ON smc.n_regionkey = rmc.n_regionkey\nWHERE\n  sr.ship_year IN (\n    1995,\n    1996\n  )\n  AND smc.median_supply_cost > rmc.region_median_supply_cost\nORDER BY\n  sr.s_suppkey,\n  sr.quarter",
+    "backend": "gemini-flash"
+  }
+]

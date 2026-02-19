@@ -1,0 +1,102 @@
+[
+  {
+    "nl": "What is the average account balance of customers in the AUTOMOBILE segment?",
+    "sql": "SELECT AVG(c_acctbal) AS avg_balance FROM customer WHERE c_mktsegment = 'AUTOMOBILE'",
+    "difficulty": "easy"
+  },
+  {
+    "nl": "How many orders were placed in 1995?",
+    "sql": "SELECT COUNT(*) AS order_count FROM orders WHERE o_orderdate >= '1995-01-01' AND o_orderdate <= '1995-12-31'",
+    "difficulty": "easy"
+  },
+  {
+    "nl": "What is the total extended price of all line items shipped on or after January 1, 1997?",
+    "sql": "SELECT SUM(l_extendedprice) AS total_extended_price FROM lineitem WHERE l_shipdate >= '1997-01-01'",
+    "difficulty": "easy"
+  },
+  {
+    "nl": "Show me the top 10 most expensive orders by total price.",
+    "sql": "SELECT o_orderkey, o_totalprice FROM orders ORDER BY o_totalprice DESC LIMIT 10",
+    "difficulty": "easy"
+  },
+  {
+    "nl": "What is the minimum retail price for parts in each size category?",
+    "sql": "SELECT p_size, MIN(p_retailprice) AS min_price FROM part GROUP BY p_size ORDER BY p_size",
+    "difficulty": "easy"
+  },
+  {
+    "nl": "Which suppliers from GERMANY have provided parts with a supply cost greater than 100?",
+    "sql": "SELECT DISTINCT s.s_name, s.s_address FROM supplier s INNER JOIN nation n ON s.s_nationkey = n.n_nationkey INNER JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey WHERE n.n_name = 'GERMANY' AND ps.ps_supplycost > 100",
+    "difficulty": "medium"
+  },
+  {
+    "nl": "How many orders were placed by customers from each region in 1996?",
+    "sql": "SELECT r.r_name, COUNT(o.o_orderkey) AS order_count FROM orders o INNER JOIN customer c ON o.o_custkey = c.c_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey INNER JOIN region r ON n.n_regionkey = r.r_regionkey WHERE o.o_orderdate >= '1996-01-01' AND o.o_orderdate < '1997-01-01' GROUP BY r.r_name",
+    "difficulty": "medium"
+  },
+  {
+    "nl": "What is the total revenue from line items for each part manufacturer, but only show manufacturers with more than 1000000 in total revenue?",
+    "sql": "SELECT p.p_mfgr, SUM(l.l_extendedprice * (1 - l.l_discount)) AS total_revenue FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey GROUP BY p.p_mfgr HAVING SUM(l.l_extendedprice * (1 - l.l_discount)) > 1000000",
+    "difficulty": "medium"
+  },
+  {
+    "nl": "Show me customers from FRANCE along with their order count, including customers who have never placed an order?",
+    "sql": "SELECT c.c_name, c.c_address, COUNT(o.o_orderkey) AS order_count FROM customer c LEFT JOIN orders o ON c.c_custkey = o.o_custkey INNER JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE n.n_name = 'FRANCE' GROUP BY c.c_custkey, c.c_name, c.c_address",
+    "difficulty": "medium"
+  },
+  {
+    "nl": "What is the average quantity ordered for parts with retail price above 1000, categorized by whether the part size is large or small?",
+    "sql": "SELECT CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END AS size_category, AVG(l.l_quantity) AS avg_quantity FROM lineitem l INNER JOIN part p ON l.l_partkey = p.p_partkey WHERE p.p_retailprice > 1000 GROUP BY CASE WHEN p.p_size >= 25 THEN 'Large' ELSE 'Small' END",
+    "difficulty": "medium"
+  },
+  {
+    "nl": "Show me customers from EUROPE who have placed orders with a total value higher than the average order value for their country.",
+    "sql": "SELECT DISTINCT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey JOIN region r ON n.n_regionkey = r.r_regionkey JOIN orders o ON c.c_custkey = o.o_custkey WHERE r.r_name = 'EUROPE' AND o.o_totalprice > (SELECT AVG(o2.o_totalprice) FROM orders o2 JOIN customer c2 ON o2.o_custkey = c2.c_custkey WHERE c2.c_nationkey = c.c_nationkey)",
+    "difficulty": "hard"
+  },
+  {
+    "nl": "For each supplier, show their ranking by total supply cost and the difference from the previous supplier's total supply cost.",
+    "sql": "SELECT s.s_suppkey, s.s_name, total_supply_cost, RANK() OVER (ORDER BY total_supply_cost DESC) as cost_rank, total_supply_cost - LAG(total_supply_cost) OVER (ORDER BY total_supply_cost DESC) as cost_diff_from_prev FROM (SELECT s.s_suppkey, s.s_name, SUM(ps.ps_supplycost * ps.ps_availqty) as total_supply_cost FROM supplier s JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey GROUP BY s.s_suppkey, s.s_name) s",
+    "difficulty": "hard"
+  },
+  {
+    "nl": "Which parts have been ordered in quantities above the average quantity for that part across all orders placed in 1995?",
+    "sql": "SELECT DISTINCT p.p_partkey, p.p_name FROM part p WHERE EXISTS (SELECT 1 FROM lineitem l JOIN orders o ON l.l_orderkey = o.o_orderkey WHERE l.l_partkey = p.p_partkey AND EXTRACT(YEAR FROM o.o_orderdate) = 1995 AND l.l_quantity > (SELECT AVG(l2.l_quantity) FROM lineitem l2 WHERE l2.l_partkey = p.p_partkey))",
+    "difficulty": "hard"
+  },
+  {
+    "nl": "Show me the monthly order totals for 1996, along with each month's rank by total value and the running total across all months.",
+    "sql": "SELECT order_month, monthly_total, DENSE_RANK() OVER (ORDER BY monthly_total DESC) as month_rank, SUM(monthly_total) OVER (ORDER BY order_month ROWS UNBOUNDED PRECEDING) as running_total FROM (SELECT EXTRACT(MONTH FROM o_orderdate) as order_month, SUM(o_totalprice) as monthly_total FROM orders WHERE EXTRACT(YEAR FROM o_orderdate) = 1996 GROUP BY EXTRACT(MONTH FROM o_orderdate)) monthly_orders ORDER BY order_month",
+    "difficulty": "hard"
+  },
+  {
+    "nl": "Find customers from the BUILDING segment whose account balance is higher than all customers from FRANCE in the same segment.",
+    "sql": "SELECT c.c_custkey, c.c_name, c.c_acctbal FROM customer c JOIN nation n ON c.c_nationkey = n.n_nationkey WHERE c.c_mktsegment = 'BUILDING' AND c.c_acctbal > ALL (SELECT c2.c_acctbal FROM customer c2 JOIN nation n2 ON c2.c_nationkey = n2.n_nationkey WHERE c2.c_mktsegment = 'BUILDING' AND n2.n_name = 'FRANCE')",
+    "difficulty": "hard"
+  },
+  {
+    "nl": "For each quarter of 1995, show me the total revenue from line items shipped in that quarter, along with the percentage change from the previous quarter and the cumulative revenue across all quarters up to that point.",
+    "sql": "WITH quarterly_revenue AS (\n  SELECT \n    EXTRACT(QUARTER FROM l_shipdate) AS quarter,\n    SUM(l_extendedprice * (1 - l_discount)) AS revenue\n  FROM lineitem \n  WHERE EXTRACT(YEAR FROM l_shipdate) = 1995\n  GROUP BY EXTRACT(QUARTER FROM l_shipdate)\n),\nrevenue_with_lag AS (\n  SELECT \n    quarter,\n    revenue,\n    LAG(revenue) OVER (ORDER BY quarter) AS prev_revenue,\n    SUM(revenue) OVER (ORDER BY quarter ROWS UNBOUNDED PRECEDING) AS cumulative_revenue\n  FROM quarterly_revenue\n)\nSELECT \n  quarter,\n  revenue,\n  CASE \n    WHEN prev_revenue IS NULL THEN NULL\n    ELSE ((revenue - prev_revenue) / prev_revenue * 100)\n  END AS pct_change_from_prev_quarter,\n  cumulative_revenue\nFROM revenue_with_lag\nORDER BY quarter",
+    "difficulty": "very_hard"
+  },
+  {
+    "nl": "Which suppliers from ASIA have parts that were ordered with above-average quantities in 1996, but only show suppliers whose total supply cost across all their parts exceeds the average supply cost of all European suppliers?",
+    "sql": "WITH avg_quantity_1996 AS (\n  SELECT AVG(l_quantity) AS avg_qty\n  FROM lineitem l\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) = 1996\n),\neuropean_avg_supply_cost AS (\n  SELECT AVG(ps_supplycost) AS avg_supply_cost\n  FROM partsupp ps\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  WHERE r.r_name = 'EUROPE'\n),\nasian_suppliers_above_avg AS (\n  SELECT DISTINCT s.s_suppkey, s.s_name\n  FROM supplier s\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  JOIN lineitem l ON ps.ps_partkey = l.l_partkey AND ps.ps_suppkey = l.l_suppkey\n  JOIN orders o ON l.l_orderkey = o.o_orderkey\n  CROSS JOIN avg_quantity_1996 aq\n  WHERE r.r_name = 'ASIA'\n    AND EXTRACT(YEAR FROM o.o_orderdate) = 1996\n    AND l.l_quantity > aq.avg_qty\n),\nsupplier_total_costs AS (\n  SELECT \n    s.s_suppkey,\n    s.s_name,\n    SUM(ps.ps_supplycost) AS total_supply_cost\n  FROM asian_suppliers_above_avg s\n  JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n  GROUP BY s.s_suppkey, s.s_name\n)\nSELECT \n  stc.s_suppkey,\n  stc.s_name,\n  stc.total_supply_cost\nFROM supplier_total_costs stc\nCROSS JOIN european_avg_supply_cost eac\nWHERE stc.total_supply_cost > eac.avg_supply_cost\nORDER BY stc.total_supply_cost DESC",
+    "difficulty": "very_hard"
+  },
+  {
+    "nl": "Show me customers from the MACHINERY segment who have placed orders in both 1995 and 1996, along with their year-over-year order count change and the difference between their account balance and the median account balance of all customers in their country.",
+    "sql": "WITH machinery_customers AS (\n  SELECT c_custkey, c_name, c_acctbal, c_nationkey\n  FROM customer \n  WHERE c_mktsegment = 'MACHINERY'\n),\ncustomer_orders_by_year AS (\n  SELECT \n    mc.c_custkey,\n    mc.c_name,\n    mc.c_acctbal,\n    mc.c_nationkey,\n    EXTRACT(YEAR FROM o.o_orderdate) AS order_year,\n    COUNT(*) AS order_count\n  FROM machinery_customers mc\n  JOIN orders o ON mc.c_custkey = o.o_custkey\n  WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n  GROUP BY mc.c_custkey, mc.c_name, mc.c_acctbal, mc.c_nationkey, EXTRACT(YEAR FROM o.o_orderdate)\n),\ncustomers_both_years AS (\n  SELECT c_custkey\n  FROM customer_orders_by_year\n  GROUP BY c_custkey\n  HAVING COUNT(DISTINCT order_year) = 2\n),\nyoy_comparison AS (\n  SELECT \n    cby.c_custkey,\n    cby.c_name,\n    cby.c_acctbal,\n    cby.c_nationkey,\n    SUM(CASE WHEN cby.order_year = 1995 THEN cby.order_count ELSE 0 END) AS orders_1995,\n    SUM(CASE WHEN cby.order_year = 1996 THEN cby.order_count ELSE 0 END) AS orders_1996\n  FROM customer_orders_by_year cby\n  JOIN customers_both_years cty ON cby.c_custkey = cty.c_custkey\n  GROUP BY cby.c_custkey, cby.c_name, cby.c_acctbal, cby.c_nationkey\n),\ncountry_median_balance AS (\n  SELECT \n    c_nationkey,\n    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY c_acctbal) AS median_balance\n  FROM customer\n  GROUP BY c_nationkey\n)\nSELECT \n  yoy.c_custkey,\n  yoy.c_name,\n  yoy.orders_1995,\n  yoy.orders_1996,\n  (yoy.orders_1996 - yoy.orders_1995) AS yoy_order_change,\n  yoy.c_acctbal,\n  cmb.median_balance,\n  (yoy.c_acctbal - cmb.median_balance) AS balance_vs_country_median\nFROM yoy_comparison yoy\nJOIN country_median_balance cmb ON yoy.c_nationkey = cmb.c_nationkey\nORDER BY yoy_order_change DESC",
+    "difficulty": "very_hard"
+  },
+  {
+    "nl": "For parts with retail price above 1500, show me the manufacturing brands that have parts supplied by suppliers from at least 3 different regions, and calculate the weighted average supply cost where the weight is the available quantity.",
+    "sql": "WITH expensive_parts AS (\n  SELECT p_partkey, p_brand, p_retailprice\n  FROM part \n  WHERE p_retailprice > 1500\n),\npart_supplier_regions AS (\n  SELECT \n    ep.p_partkey,\n    ep.p_brand,\n    ps.ps_suppkey,\n    ps.ps_supplycost,\n    ps.ps_availqty,\n    r.r_name AS region_name\n  FROM expensive_parts ep\n  JOIN partsupp ps ON ep.p_partkey = ps.ps_partkey\n  JOIN supplier s ON ps.ps_suppkey = s.s_suppkey\n  JOIN nation n ON s.s_nationkey = n.n_nationkey\n  JOIN region r ON n.n_regionkey = r.r_regionkey\n),\nbrand_region_counts AS (\n  SELECT \n    p_brand,\n    COUNT(DISTINCT region_name) AS region_count\n  FROM part_supplier_regions\n  GROUP BY p_brand\n  HAVING COUNT(DISTINCT region_name) >= 3\n),\nqualifying_brand_data AS (\n  SELECT \n    psr.p_brand,\n    psr.ps_supplycost,\n    psr.ps_availqty\n  FROM part_supplier_regions psr\n  JOIN brand_region_counts brc ON psr.p_brand = brc.p_brand\n)\nSELECT \n  p_brand,\n  COUNT(*) AS total_part_supplier_combinations,\n  SUM(ps_supplycost * ps_availqty) / SUM(ps_availqty) AS weighted_avg_supply_cost,\n  SUM(ps_availqty) AS total_available_quantity\nFROM qualifying_brand_data\nGROUP BY p_brand\nORDER BY weighted_avg_supply_cost DESC",
+    "difficulty": "very_hard"
+  },
+  {
+    "nl": "For suppliers from EUROPE, show me their quarterly revenue trends in 1996 compared to 1995, but only include suppliers who had parts ordered in both years and whose total supply cost is above the median supply cost of all suppliers in their region.",
+    "sql": "WITH supplier_regions AS (\n    SELECT s.s_suppkey, s.s_name, n.n_name as nation, r.r_name as region\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    WHERE r.r_name = 'EUROPE'\n),\nregional_median AS (\n    SELECT r.r_name as region, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ps.ps_supplycost) as median_supply_cost\n    FROM supplier s\n    JOIN nation n ON s.s_nationkey = n.n_nationkey\n    JOIN region r ON n.n_regionkey = r.r_regionkey\n    JOIN partsupp ps ON s.s_suppkey = ps.ps_suppkey\n    GROUP BY r.r_name\n),\nsupplier_supply_costs AS (\n    SELECT sr.s_suppkey, sr.s_name, sr.region, SUM(ps.ps_supplycost) as total_supply_cost\n    FROM supplier_regions sr\n    JOIN partsupp ps ON sr.s_suppkey = ps.ps_suppkey\n    GROUP BY sr.s_suppkey, sr.s_name, sr.region\n),\nqualified_suppliers AS (\n    SELECT ssc.s_suppkey, ssc.s_name\n    FROM supplier_supply_costs ssc\n    JOIN regional_median rm ON ssc.region = rm.region\n    WHERE ssc.total_supply_cost > rm.median_supply_cost\n),\nsuppliers_with_orders AS (\n    SELECT DISTINCT qs.s_suppkey, qs.s_name\n    FROM qualified_suppliers qs\n    JOIN lineitem l ON qs.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY qs.s_suppkey, qs.s_name\n    HAVING COUNT(DISTINCT EXTRACT(YEAR FROM o.o_orderdate)) = 2\n),\nquarterly_revenue AS (\n    SELECT \n        swo.s_suppkey,\n        swo.s_name,\n        EXTRACT(YEAR FROM o.o_orderdate) as order_year,\n        EXTRACT(QUARTER FROM o.o_orderdate) as order_quarter,\n        SUM(l.l_extendedprice * (1 - l.l_discount)) as quarterly_revenue\n    FROM suppliers_with_orders swo\n    JOIN lineitem l ON swo.s_suppkey = l.l_suppkey\n    JOIN orders o ON l.l_orderkey = o.o_orderkey\n    WHERE EXTRACT(YEAR FROM o.o_orderdate) IN (1995, 1996)\n    GROUP BY swo.s_suppkey, swo.s_name, EXTRACT(YEAR FROM o.o_orderdate), EXTRACT(QUARTER FROM o.o_orderdate)\n),\nrevenue_comparison AS (\n    SELECT \n        qr1996.s_suppkey,\n        qr1996.s_name,\n        qr1996.order_quarter,\n        qr1996.quarterly_revenue as revenue_1996,\n        COALESCE(qr1995.quarterly_revenue, 0) as revenue_1995,\n        CASE \n            WHEN COALESCE(qr1995.quarterly_revenue, 0) > 0 \n            THEN ((qr1996.quarterly_revenue - qr1995.quarterly_revenue) / qr1995.quarterly_revenue) * 100\n            ELSE NULL\n        END as revenue_change_pct\n    FROM quarterly_revenue qr1996\n    LEFT JOIN quarterly_revenue qr1995 ON qr1996.s_suppkey = qr1995.s_suppkey \n        AND qr1996.order_quarter = qr1995.order_quarter \n        AND qr1995.order_year = 1995\n    WHERE qr1996.order_year = 1996\n)\nSELECT \n    s_name as supplier_name,\n    order_quarter as quarter,\n    ROUND(revenue_1995, 2) as revenue_1995,\n    ROUND(revenue_1996, 2) as revenue_1996,\n    ROUND(revenue_change_pct, 2) as pct_change\nFROM revenue_comparison\nORDER BY s_name, order_quarter",
+    "difficulty": "very_hard"
+  }
+]
